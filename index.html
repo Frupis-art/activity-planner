@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планировщик занятий</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <button class="reset-cache-btn" id="reset-cache-btn" title="Сбросить кэш">🗑️</button>
+        
+        <header>
+            <h1>Планировщик занятий</h1>
+            <p class="tagline">распланируй своё занятие</p>
+        </header>
+
+        <main id="activities-container">
+            <!-- Сюда JavaScript будет вставлять занятия -->
+        </main>
+
+        <div class="controls">
+            <button id="add-activity-btn">+ Добавить занятие</button>
+            <button id="remove-activity-btn" disabled>- Удалить занятие</button>
+        </div>
+    </div>
+
+    <!-- Шаблон для занятия (будет клонироваться JavaScript'ом) -->
+    <template id="activity-template">
+        <div class="activity">
+            <div class="activity-header">
+                <button class="toggle-btn">+</button>
+                <input type="text" class="activity-title" value="Новое занятие" placeholder="Название занятия">
+                <div class="activity-controls">
+                    <button class="ctrl-btn play-activity-btn" title="Старт занятия">▶</button>
+                    <button class="ctrl-btn stop-activity-btn" title="Стоп занятия">■</button>
+                </div>
+            </div>
+            <div class="events-container" style="display: none;">
+                <!-- Сюда вставляются события -->
+                <div class="event-controls">
+                    <button class="add-event-btn">+ Добавить событие</button>
+                    <button class="remove-event-btn" disabled>- Удалить событие</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Шаблон для события -->
+    <template id="event-template">
+        <div class="event">
+            <div class="event-info">
+                <input type="text" class="event-title" placeholder="Название события">
+                <div class="duration-inputs">
+                    <input type="number" class="event-duration-h" min="0" value="0" placeholder="Ч">
+                    <span>:</span>
+                    <input type="number" class="event-duration-m" min="0" max="59" value="0" placeholder="М">
+                    <span>:</span>
+                    <input type="number" class="event-duration-s" min="0" max="59" value="0" placeholder="С">
+                    <span>:</span>
+                    <input type="number" class="event-duration-ms" min="0" max="99" value="0" placeholder="сс">
+                </div>
+            </div>
+            <div class="timers-container">
+                <div class="timer-box">
+                    <span class="elapsed-time">00:00:00:00</span>
+                </div>
+                <div class="timer-box">
+                    <span class="remaining-time">00:00:00:00</span>
+                </div>
+            </div>
+            <div class="event-controls-buttons">
+                <button class="ctrl-btn prev-btn" title="Предыдущее">◀|</button>
+                <button class="ctrl-btn play-btn" title="Старт">▶</button>
+                <button class="ctrl-btn stop-btn" title="Стоп">■</button>
+                <button class="ctrl-btn pause-btn" title="Пауза">❚❚</button>
+                <button class="ctrl-btn next-btn" title="Следующее">|▶</button>
+            </div>
+        </div>
+    </template>
+
+    <audio id="start-sound" src="sounds/start.wav" preload="auto"></audio>
+    <audio id="alert-sound" src="sounds/alert.wav" preload="auto"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

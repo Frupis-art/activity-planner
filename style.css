@@ -1,0 +1,325 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f5f5dc;
+    color: #4a4a4a;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.reset-cache-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(to bottom, #f8f4e9, #e0c9a6);
+    border: 1px solid #d9b99b;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reset-cache-btn:hover {
+    background: linear-gradient(to bottom, #e0c9a6, #d9b99b);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #d9b99b;
+    padding-bottom: 1rem;
+    margin-top: 40px;
+}
+
+h1 {
+
+    font-size: 2.0rem;
+    margin: 0;
+    color: #8b4513;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: none;
+}
+
+.tagline {
+    font-size: 1rem;
+    font-style: italic;
+    margin: 5px 0 0 0;
+    color: #9d8e7e;
+    font-weight: 300;
+}
+
+.activity {
+    border: 2px solid #d9b99b;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background-color: #fffef7;
+    transition: border-color 0.3s ease;
+}
+
+.activity.active {
+    border: 2px solid #7c9b50;
+}
+
+.activity-header {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    cursor: pointer;
+    background-color: #f8f4e9;
+    border-radius: 6px 6px 0 0;
+}
+
+.toggle-btn {
+    background: none;
+    border: 1px solid #d9b99b;
+    font-size: 1.2rem;
+    width: 30px;
+    height: 30px;
+    margin-right: 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.toggle-btn:hover {
+    background-color: #e0c9a6;
+}
+
+.activity-title {
+    font-size: 1.3rem;
+    border: none;
+    background: none;
+    flex-grow: 1;
+    padding: 8px;
+    color: #8b4513;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+.activity-title:focus {
+    outline: 2px solid #d9b99b;
+    border-radius: 3px;
+}
+
+.activity-controls {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.events-container {
+    padding: 1rem;
+    border-top: 1px solid #d9b99b;
+}
+
+.event {
+    border: 1px solid #e0c9a6;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    background-color: #fffffb;
+}
+
+.event.active {
+    border: 2px solid #7c9b50;
+}
+
+.event-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    align-items: center;
+    gap: 10px;
+}
+
+.event-title {
+    border: 1px dashed #d9b99b;
+    padding: 8px;
+    background: none;
+    font-family: 'Montserrat', sans-serif;
+    flex-grow: 1;
+    border-radius: 3px;
+    font-size: 0.95rem;
+}
+
+.event-title:focus {
+    outline: 2px solid #d9b99b;
+}
+
+.duration-inputs {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-wrap: wrap;
+}
+
+.duration-inputs input {
+    width: 42px;
+    text-align: center;
+    border: 1px solid #d9b99b;
+    padding: 6px;
+    background: #fff;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 3px;
+    font-size: 0.9rem;
+}
+
+.duration-inputs input:focus {
+    outline: 2px solid #8b4513;
+}
+
+.duration-inputs span {
+    color: #8b4513;
+    font-weight: bold;
+}
+
+.timers-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+    gap: 15px;
+}
+
+.timer-box {
+    border: 2px solid #333;
+    background-color: #2a2a2a;
+    padding: 10px 15px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.elapsed-time, .remaining-time {
+    color: #00ffff;
+    font-weight: bold;
+    font-size: 1.1rem;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+}
+
+.event-controls-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.ctrl-btn {
+    background: linear-gradient(to bottom, #f8f4e9, #e0c9a6);
+    border: 1px solid #d9b99b;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: 'Arial Unicode MS';
+    font-size: 1rem;
+    min-width: 40px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.ctrl-btn:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #e0c9a6, #d9b99b);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.ctrl-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.ctrl-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: #f0f0f0;
+}
+
+.event-controls, .controls {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+#add-activity-btn, .add-event-btn, .remove-event-btn, #remove-activity-btn {
+    background: linear-gradient(to bottom, #f8f4e9, #e0c9a6);
+    border: 1px solid #d9b99b;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+#add-activity-btn:hover, .add-event-btn:hover, .remove-event-btn:hover, #remove-activity-btn:hover {
+    background: linear-gradient(to bottom, #e0c9a6, #d9b99b);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.remove-event-btn:disabled, #remove-activity-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: #f0f0f0;
+    transform: none;
+    box-shadow: none;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 2.2rem;
+    }
+    
+    .event-info {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .duration-inputs {
+        justify-content: center;
+        margin-top: 10px;
+    }
+    
+    .timers-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .event-controls-buttons {
+        gap: 5px;
+    }
+    
+    .ctrl-btn {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+        min-width: 35px;
+    }
+}
