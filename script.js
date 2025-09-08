@@ -196,8 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const prevBtn = firstEventEl.querySelector('.prev-btn');
                     const nextBtn = firstEventEl.querySelector('.next-btn');
                     const elapsedSpan = firstEventEl.querySelector('.elapsed-time');
-                    const remainingSpan = firstEventEl.querySelector('.remaining-time');
-                    startEvent(activity, firstEvent, firstEventEl, elapsedSpan, remainingSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
+                    startEvent(activity, firstEvent, firstEventEl, elapsedSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
                 }
             }
         });
@@ -213,8 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const prevBtn = eventEl.querySelector('.prev-btn');
                     const nextBtn = eventEl.querySelector('.next-btn');
                     const elapsedSpan = eventEl.querySelector('.elapsed-time');
-                    const remainingSpan = eventEl.querySelector('.remaining-time');
-                    stopEvent(activity, event, eventEl, elapsedSpan, remainingSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
+                    stopEvent(activity, event, eventEl, elapsedSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
                 }
             });
             activity.isActive = false;
@@ -234,7 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const durationSInput = clone.querySelector('.event-duration-s');
         const durationMsInput = clone.querySelector('.event-duration-ms');
         const elapsedSpan = clone.querySelector('.elapsed-time');
-        const remainingSpan = clone.querySelector('.remaining-time');
         const prevBtn = clone.querySelector('.prev-btn');
         const playBtn = clone.querySelector('.play-btn');
         const stopBtn = clone.querySelector('.stop-btn');
@@ -248,8 +245,8 @@ document.addEventListener('DOMContentLoaded', () => {
         durationSInput.value = event.durationSeconds || 0;
         durationMsInput.value = event.durationHundredths || 0;
 
-        // Обновляем таймеры
-        updateEventTimerDisplay(event, elapsedSpan, remainingSpan);
+        // Обновляем таймер
+        updateEventTimerDisplay(event, elapsedSpan);
 
         // Если событие активно - подсвечиваем
         if (event.isRunning || event.isPaused) {
@@ -277,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
             durationSInput.value = event.durationSeconds;
             durationMsInput.value = event.durationHundredths;
             
-            updateEventTimerDisplay(event, elapsedSpan, remainingSpan);
+            updateEventTimerDisplay(event, elapsedSpan);
             saveState();
         };
 
@@ -287,8 +284,8 @@ document.addEventListener('DOMContentLoaded', () => {
         durationMsInput.addEventListener('change', updateDuration);
 
         // Назначение обработчиков кнопок
-        playBtn.addEventListener('click', () => startEvent(activity, event, eventEl, elapsedSpan, remainingSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn));
-        stopBtn.addEventListener('click', () => stopEvent(activity, event, eventEl, elapsedSpan, remainingSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn));
+        playBtn.addEventListener('click', () => startEvent(activity, event, eventEl, elapsedSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn));
+        stopBtn.addEventListener('click', () => stopEvent(activity, event, eventEl, elapsedSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn));
         pauseBtn.addEventListener('click', () => pauseEvent(event, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn));
         nextBtn.addEventListener('click', () => moveToNextEvent(activity, event));
         prevBtn.addEventListener('click', () => moveToPrevEvent(activity, event));
@@ -320,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
             elapsed: 0,
             isRunning: false,
             isPaused: false,
-            alertTriggered: false  // Добавлено свойство для отслеживания срабатывания оповещения
+            alertTriggered: false
         };
         activity.events.push(newEvent);
         const eventEl = createEventElement(activity, newEvent);
@@ -354,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
         removeActivityBtn.disabled = activities.length <= 1;
     }
 
-    function startEvent(activity, event, eventEl, elapsedSpan, remainingSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn) {
+    function startEvent(activity, event, eventEl, elapsedSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn) {
         // Останавливаем все другие занятия
         activities.forEach(otherActivity => {
             if (otherActivity.id !== activity.id && otherActivity.isActive) {
@@ -377,8 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const otherPrevBtn = otherEventEl.querySelector('.prev-btn');
                     const otherNextBtn = otherEventEl.querySelector('.next-btn');
                     const otherElapsedSpan = otherEventEl.querySelector('.elapsed-time');
-                    const otherRemainingSpan = otherEventEl.querySelector('.remaining-time');
-                    stopEvent(activity, otherEvent, otherEventEl, otherElapsedSpan, otherRemainingSpan, otherPlayBtn, otherStopBtn, otherPauseBtn, otherPrevBtn, otherNextBtn);
+                    stopEvent(activity, otherEvent, otherEventEl, otherElapsedSpan, otherPlayBtn, otherStopBtn, otherPauseBtn, otherPrevBtn, otherNextBtn);
                 }
             }
         });
@@ -398,25 +394,25 @@ document.addEventListener('DOMContentLoaded', () => {
         event.elapsed = 0;
         event.isRunning = true;
         event.isPaused = false;
-        event.alertTriggered = false; // Сбрасываем флаг оповещения
+        event.alertTriggered = false;
         eventEl.classList.add('active');
         activity.isActive = true;
         document.querySelector(`.activity[data-id="${activity.id}"]`).classList.add('active');
         // Запускаем обновление таймера
-        updateEventTimerDisplay(event, elapsedSpan, remainingSpan);
+        updateEventTimerDisplay(event, elapsedSpan);
         // Обновляем состояние кнопок
         updateEventButtons(event, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
         // Воспроизводим звук старта
         playStartSound();
     }
 
-    function stopEvent(activity, event, eventEl, elapsedSpan, remainingSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn) {
+    function stopEvent(activity, event, eventEl, elapsedSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn) {
         event.isRunning = false;
         event.isPaused = false;
         event.elapsed = 0;
-        event.alertTriggered = false; // Сбрасываем флаг оповещения
+        event.alertTriggered = false;
         eventEl.classList.remove('active');
-        updateEventTimerDisplay(event, elapsedSpan, remainingSpan);
+        updateEventTimerDisplay(event, elapsedSpan);
         // Обновляем состояние кнопок
         updateEventButtons(event, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
         stopAllSounds();
@@ -450,14 +446,13 @@ document.addEventListener('DOMContentLoaded', () => {
             currentEvent.isRunning = false;
             currentEvent.isPaused = false;
             currentEvent.elapsed = 0;
-            currentEvent.alertTriggered = false; // Сбрасываем флаг оповещения
+            currentEvent.alertTriggered = false;
             
             // Снимаем выделение с текущего события
             const currentEventEl = document.querySelector(`.event[data-id="${currentEvent.id}"]`);
             if (currentEventEl) {
                 currentEventEl.classList.remove('active');
                 const elapsedSpan = currentEventEl.querySelector('.elapsed-time');
-                const remainingSpan = currentEventEl.querySelector('.remaining-time');
                 const playBtn = currentEventEl.querySelector('.play-btn');
                 const stopBtn = currentEventEl.querySelector('.stop-btn');
                 const pauseBtn = currentEventEl.querySelector('.pause-btn');
@@ -465,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const nextBtn = currentEventEl.querySelector('.next-btn');
                 
                 // Обновляем отображение и кнопки
-                updateEventTimerDisplay(currentEvent, elapsedSpan, remainingSpan);
+                updateEventTimerDisplay(currentEvent, elapsedSpan);
                 updateEventButtons(currentEvent, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
             }
             
@@ -479,8 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const prevBtn = nextEventEl.querySelector('.prev-btn');
                 const nextBtn = nextEventEl.querySelector('.next-btn');
                 const elapsedSpan = nextEventEl.querySelector('.elapsed-time');
-                const remainingSpan = nextEventEl.querySelector('.remaining-time');
-                startEvent(activity, nextEvent, nextEventEl, elapsedSpan, remainingSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
+                startEvent(activity, nextEvent, nextEventEl, elapsedSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
             }
         }
     }
@@ -492,14 +486,13 @@ document.addEventListener('DOMContentLoaded', () => {
             currentEvent.isRunning = false;
             currentEvent.isPaused = false;
             currentEvent.elapsed = 0;
-            currentEvent.alertTriggered = false; // Сбрасываем флаг оповещения
+            currentEvent.alertTriggered = false;
             
             // Снимаем выделение с текущего события
             const currentEventEl = document.querySelector(`.event[data-id="${currentEvent.id}"]`);
             if (currentEventEl) {
                 currentEventEl.classList.remove('active');
                 const elapsedSpan = currentEventEl.querySelector('.elapsed-time');
-                const remainingSpan = currentEventEl.querySelector('.remaining-time');
                 const playBtn = currentEventEl.querySelector('.play-btn');
                 const stopBtn = currentEventEl.querySelector('.stop-btn');
                 const pauseBtn = currentEventEl.querySelector('.pause-btn');
@@ -507,7 +500,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const nextBtn = currentEventEl.querySelector('.next-btn');
                 
                 // Обновляем отображение и кнопки
-                updateEventTimerDisplay(currentEvent, elapsedSpan, remainingSpan);
+                updateEventTimerDisplay(currentEvent, elapsedSpan);
                 updateEventButtons(currentEvent, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
             }
             
@@ -521,8 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const prevBtn = prevEventEl.querySelector('.prev-btn');
                 const nextBtn = prevEventEl.querySelector('.next-btn');
                 const elapsedSpan = prevEventEl.querySelector('.elapsed-time');
-                const remainingSpan = prevEventEl.querySelector('.remaining-time');
-                startEvent(activity, prevEvent, prevEventEl, elapsedSpan, remainingSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
+                startEvent(activity, prevEvent, prevEventEl, elapsedSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
             }
         }
     }
@@ -552,7 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ].join(':');
     }
 
-    function updateEventTimerDisplay(event, elapsedSpan, remainingSpan) {
+    function updateEventTimerDisplay(event, elapsedSpan) {
         // Преобразуем прошедшее время в компоненты
         const elapsedTime = hundredthsToTime(event.elapsed);
         elapsedSpan.textContent = formatTime(
@@ -561,27 +553,6 @@ document.addEventListener('DOMContentLoaded', () => {
             elapsedTime.seconds, 
             elapsedTime.hundredths
         );
-
-        // Рассчитываем и форматируем оставшееся время
-        const totalHundredths = timeToHundredths(
-            event.durationHours, 
-            event.durationMinutes, 
-            event.durationSeconds, 
-            event.durationHundredths
-        );
-        const remaining = totalHundredths - event.elapsed;
-        
-        if (remaining > 0) {
-            const remainingTime = hundredthsToTime(remaining);
-            remainingSpan.textContent = formatTime(
-                remainingTime.hours, 
-                remainingTime.minutes, 
-                remainingTime.seconds, 
-                remainingTime.hundredths
-            );
-        } else {
-            remainingSpan.textContent = '00:00:00:00';
-        }
     }
 
     // ========== ТАЙМЕРЫ ==========
@@ -595,8 +566,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const eventEl = document.querySelector(`.event[data-id="${event.id}"]`);
                     if (eventEl) {
                         const elapsedSpan = eventEl.querySelector('.elapsed-time');
-                        const remainingSpan = eventEl.querySelector('.remaining-time');
-                        updateEventTimerDisplay(event, elapsedSpan, remainingSpan);
+                        updateEventTimerDisplay(event, elapsedSpan);
                     }
 
                     // Проверяем, не подходит ли время к концу
@@ -619,13 +589,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         const eventEl = document.querySelector(`.event[data-id="${event.id}"]`);
                         if (eventEl) {
                             const elapsedSpan = eventEl.querySelector('.elapsed-time');
-                            const remainingSpan = eventEl.querySelector('.remaining-time');
                             const playBtn = eventEl.querySelector('.play-btn');
                             const stopBtn = eventEl.querySelector('.stop-btn');
                             const pauseBtn = eventEl.querySelector('.pause-btn');
                             const prevBtn = eventEl.querySelector('.prev-btn');
                             const nextBtn = eventEl.querySelector('.next-btn');
-                            stopEvent(activity, event, eventEl, elapsedSpan, remainingSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
+                            stopEvent(activity, event, eventEl, elapsedSpan, playBtn, stopBtn, pauseBtn, prevBtn, nextBtn);
                             moveToNextEvent(activity, event);
                         }
                     }
